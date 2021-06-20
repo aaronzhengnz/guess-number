@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import Card from '../components/Card';
 import Input from '../components/Input';
+import NumberContainer from '../components/NumberContainer';
+import GameScreen from './GameScreen';
 
-const StartGameScreen = () => {
+const StartGameScreen = (props) => {
     const minimumValue = 1;
     const maximumValue = 99;
     const [cleanedValue, setCleanedValue] = useState('');
@@ -55,15 +57,15 @@ const StartGameScreen = () => {
         confirmOutput = (
             <Card>
                 <Text style={styles.value}>Your Selected Number is:</Text>
-                <Text style={styles.valuestyle}>{savedValue}</Text>
+                <NumberContainer>{savedValue}</NumberContainer>
                 <View>
-                    <Button color="rgb(235, 125, 252)" title="Start Game"></Button>
+                    <Button color="rgb(235, 125, 252)" title="Start Game" onPress={() => {}} ></Button>
                 </View>
             </Card>
         );
     }
 
-    return (
+    let startGameContent = (
         <TouchableWithoutFeedback onPress={handleTouchablePress}>
             <View style={styles.screen}>
                 <Text style={styles.title}>Start a new game</Text>
@@ -78,6 +80,7 @@ const StartGameScreen = () => {
                         multiLine
                         onChangeText={handleUserInputChange}
                         value={cleanedValue}
+                        style={styles.Input}
                     />
                     <View style={styles.buttonContainer}>
                         <Button title='Reset' onPress={buttonReset} color="red"></Button>
@@ -88,7 +91,14 @@ const StartGameScreen = () => {
             </View>
         </TouchableWithoutFeedback>
     );
+
+    if (savedValue) {
+        startGameContent = <GameScreen/>;
+    }
+
+    return startGameContent;
 };
+
 
 const styles = StyleSheet.create({
     screen: {
@@ -106,15 +116,18 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     Input: {
-        width: '100%',
-    },
-    valuestyle: {
+        paddingTop: 10,
+        width: '20%',
+        fontSize: 20,
         borderWidth: 2,
         padding: 10,
         borderRadius: 10,
         marginVertical: 10,
-        borderColor: 'rgb(52, 235, 64)'
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: 'rgb(52, 174, 235)'
     },
+
 });
 
 export default StartGameScreen;
